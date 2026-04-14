@@ -29,30 +29,23 @@ The analysis relied on the following columns:
 - Sale Price
 
 
-Step-by-Step Process
-1. Import and review the dataset
-Open the dataset in Excel
-Review the available columns and identify the key variables needed for valuation
-Confirm that some records have a Sale Price of 0
-2. Convert the raw data into an Excel Table
-Highlight the full dataset
-Select Insert > Table
-Ensure headers are included
-Rename the table if needed
+## Step-by-Step Process
+### 1. Import and review the dataset
+    - Open the dataset in Excel
+    - Review the available columns and identify the key variables needed for valuation
+    - Confirm that some records have a Sale Price of 0
+
+### 2. Convert the raw data into an Excel Table
 
 This makes formulas easier to manage and keeps the analysis scalable.
 
-3. Create a Price per Square Foot column
+### 3. Create a Price per Square Foot column
+    - Add a new column to calculate the recorded price per square foot for valid sales.
 
-Add a new column to calculate the recorded price per square foot for valid sales.
-
-Example logic:
-
-=IF([@[Sale Price]]>0,[@[Sale Price]]/[@[Square Feet]],0)
 
 This calculates price per square foot only when a true sale price exists.
 
-4. Estimate the average price per square foot for comparable properties
+### 4. Estimate the average price per square foot for comparable properties
 
 Create a formula that calculates the average price per square foot for rows with the same:
 
@@ -60,13 +53,9 @@ Zip Code
 Building Class
 Sale Price greater than 0
 
-Example approach:
-
-=AVERAGEIFS([Price per Sq Ft],[Zip Code],[@[Zip Code]],[Building Class],[@[Building Class]],[Sale Price],">0")
-
 This creates a comparable pricing benchmark for each property.
 
-5. Create the Market Value column
+### 5. Create the Market Value column
 
 Build a new column that:
 
@@ -74,41 +63,28 @@ Uses the actual sale price if it exists
 Otherwise estimates value using:
 average price per square foot × property square feet
 
-Example formula:
 
-=IF([@[Sale Price]]>0,[@[Sale Price]],[@[Square Feet]]*AVERAGEIFS([Price per Sq Ft],[Zip Code],[@[Zip Code]],[Building Class],[@[Building Class]],[Sale Price],">0"))
-6. Format the calculated values
+### 6. Format the calculated values
 Format Sale Price and Market Value as currency
 Check for rows that may still return errors or blanks
 Validate that square footage values are present where estimates are needed
-7. Create a Pivot Table for summary analysis
 
-Build a pivot table from the Excel table to summarize the new Market Value field.
+### 7. Create a Pivot Table for summary analysis
+To further analyze the dataset provided I decided to create a dashboard to possibly look for insights into this housing market.
+Created a new "high-value" housing market column in the originial table to classify any building worth more than $15 million as a high-value price. 
 
-Suggested setup:
+From this I was able to create a pivot table for the average market value and another for properties sold in each neighborhood to possibly see if there are any insights to be found in any particular area.
 
-Rows: Neighborhood
-Values: Sum of Market Value
+![Pivot Table Screenshot](PivotTableScreenshot.png)
 
-This allows you to compare neighborhoods by total estimated market value.
 
-8. Answer business questions with Pivot Table filters
+From this short analysis we can see an interesting insight in the Upper East Side neighborhood.
 
-Use pivot table filters or value filters to answer questions such as:
+1. There is a clear set of outliers in high-end properties sold in the Upper East Side neighborhood even though there average market value is less than Greenwich Village
 
-Which neighborhoods have total market value above $15 million?
-Which neighborhoods contain the highest total value of properties?
-9. Explore market value distribution by neighborhood
+This could signal changes in the wealth distribution for this area that could be due to environmental causes. If one were to look into recent changes in the local culture, businesses, or general economic factors this could indicate a trend of high-class property owners seeking to leave the manhattan area. 
 
-Create additional pivot table views to examine how values are distributed.
+### Final Analysis
 
-Examples:
-
-Rows: Neighborhood
-Values: Count of Market Value
-Filters or groupings: Market Value ranges
-
-This helps identify how property values vary across different Manhattan neighborhoods.
-
-10. Turn the analysis into a dashboard-style layout
+Although there are a multitude of factors that may be the source of this trend, if more research were to be done it may highlight growing changes in the economic distribution of these neighborhoods.
 
